@@ -47,11 +47,13 @@
     <div class="error_title text-muted">
       @yield('title')
     </div>
+    @if(config('app.debug'))
     <div class="error_description text-muted">
       <small>
         @yield('description')
      </small>
     </div>
+    @endif
   </div>
 </div>
 @endsection
