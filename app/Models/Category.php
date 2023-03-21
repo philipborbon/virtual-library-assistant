@@ -19,7 +19,8 @@ class Category extends Model
         'path'
     ];
 
-    public function setParentIdAttribute($value) {
+    public function setParentIdAttribute($value) 
+    {
         $this->attributes['parent_id'] = $value;
 
         if ($value) {
@@ -27,7 +28,8 @@ class Category extends Model
         }
     }
 
-    public function getFullPathAttribute($value) {
+    public function getFullPathAttribute($value) 
+    {
         if ($this->path) {
             return "{$this->path} > {$this->name}";
         }
