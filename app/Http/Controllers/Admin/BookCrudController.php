@@ -50,7 +50,20 @@ class BookCrudController extends CrudController
         CRUD::column('category_id');
         CRUD::column('title');
         CRUD::column('language');
-        CRUD::column('description');
+        CRUD::addColumn([
+            'name' => 'description',
+            'type' => 'closure',
+            'escaped' => false,
+            'function' => function($value) {
+                $description = $value->description;
+
+                if (strlen($description) > 180) {
+                    $description = substr($description, 0, 180) . "...";
+                }
+
+                return nl2br($description);
+            },
+        ]);
         CRUD::addColumn([
             'name' => 'image',
             'type' => 'image',
@@ -58,7 +71,11 @@ class BookCrudController extends CrudController
         ]);
         CRUD::column('author');
         CRUD::column('publisher');
-        CRUD::column('date_published');
+        CRUD::addColumn([
+            'name' => 'date_published',
+            'type' => 'date',
+            'format' => 'MMMM D, Y',
+        ]);
         CRUD::column('pages');
     }
 
