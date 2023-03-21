@@ -32,8 +32,6 @@ class UserCrudController extends CrudController
         CRUD::column('name');
         CRUD::column('library_id')->label("Library ID");
         // CRUD::column('password');
-        // CRUD::column('created_at');
-        // CRUD::column('updated_at');
     }
 
     protected function setupShowOperation()
@@ -41,8 +39,6 @@ class UserCrudController extends CrudController
         CRUD::column('name');
         CRUD::column('library_id')->label("Library ID");
         // CRUD::column('password');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
     }
 
     protected function setupCreateOperation()

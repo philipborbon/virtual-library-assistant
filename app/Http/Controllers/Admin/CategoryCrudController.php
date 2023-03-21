@@ -30,16 +30,12 @@ class CategoryCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('parent_id');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
     }
 
     protected function setupShowOperation()
     {
         CRUD::column('name');
         CRUD::column('path')->label('Parent');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
     }
 
     protected function setupCreateOperation()
