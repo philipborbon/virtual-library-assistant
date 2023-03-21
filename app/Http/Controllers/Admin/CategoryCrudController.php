@@ -55,13 +55,37 @@ class CategoryCrudController extends CrudController
            'model'     => 'App\Models\Category',
            'attribute' => 'full_path',
            'options'   => (function ($query) {
-                return $query->orderBy('path', 'ASC')->get();
+                return $query->orderBy('path', 'ASC')
+                    ->orderBy('name', 'ASC')
+                    ->get();
             }),
         ]);
     }
     
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        CRUD::setValidation(CategoryRequest::class);
+
+        $current = $this->crud->getCurrentEntry();
+        $childIds = $current->getChildIds();
+
+        $excludeIds = [$current->id];
+        $excludeIds = array_merge($excludeIds, $childIds);
+
+        CRUD::field('name');
+
+        CRUD::addField([
+           'type'      => 'select',
+           'name'      => 'parent_id',
+           'entity'    => 'parent',
+           'model'     => 'App\Models\Category',
+           'attribute' => 'full_path',
+           'options'   => (function ($query) use ($excludeIds) {
+                return $query->whereNotIn('id', $excludeIds)
+                    ->orderBy('path', 'ASC')
+                    ->orderBy('name', 'ASC')
+                    ->get();
+            }),
+        ]);
     }
 }

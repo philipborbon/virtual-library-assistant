@@ -6,6 +6,8 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use DB;
+
 class Category extends Model
 {
     use CrudTrait;
@@ -56,5 +58,28 @@ class Category extends Model
     public function createPath()
     {
         return $this->createPathHelper([$this->name], $this);
+    }
+
+    protected function getChildIdHelper($parentId, &$childIds)
+    {
+        $ids = DB::table('categories')
+            ->select('id')
+            ->where('parent_id', $parentId)
+            ->get();
+
+        foreach ($ids as $value) {
+            $childIds[] = $value->id;
+
+            $this->getChildIdHelper($value->id, $childIds);
+        }
+    }
+
+    public function getChildIds()
+    {
+        $childIds = array();
+
+        $this->getChildIdHelper($this->id, $childIds);
+
+        return $childIds;
     }
 }
