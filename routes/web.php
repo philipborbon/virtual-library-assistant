@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return redirect('pending');
+});
+
+Route::get('/dashboard', function () {
+    return redirect('pending');
+});

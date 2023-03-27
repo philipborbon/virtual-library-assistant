@@ -16,6 +16,7 @@ Route::group([
     ),
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
+    Route::crud('pending', 'PendingCrudController');
     Route::crud('user', 'UserCrudController');
     Route::crud('category', 'CategoryCrudController');
     Route::crud('book', 'BookCrudController');
