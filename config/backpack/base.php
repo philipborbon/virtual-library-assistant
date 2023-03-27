@@ -49,7 +49,8 @@ return [
 
     // CSS files that are loaded in all pages, using Laravel's asset() helper
     'styles' => [
-        'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
+        'css/teal-backpack-bundle.css',
+        // 'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
         // 'packages/backpack/base/css/blue-bundle.css', // has primary color blue
 
         // Here's what's inside the bundle:
@@ -85,7 +86,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>SKSU</b> VLA',
+    'project_logo'   => '<img src="/logo-dark.png" height="32px">',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
