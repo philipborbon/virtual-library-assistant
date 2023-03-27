@@ -75,7 +75,7 @@ class HistoryCrudController extends CrudController
             'options' => [
                 null => 'Pending',
                 1 => 'Approved',
-                2 => 'Denied',
+                0 => 'Denied',
             ],
             'allows_null' => false,
         ]);
@@ -124,7 +124,7 @@ class HistoryCrudController extends CrudController
             'options' => [
                 null => 'Pending',
                 1 => 'Approved',
-                2 => 'Denied',
+                0 => 'Denied',
             ],
             'allows_null' => false,
         ]);
