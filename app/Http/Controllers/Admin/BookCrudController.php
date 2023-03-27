@@ -47,7 +47,21 @@ class BookCrudController extends CrudController
 
     protected function setupShowOperation()
     {
-        CRUD::column('category_id');
+        CRUD::addColumn([
+            'name' => 'category_name',
+            'label' => 'Category',
+            'type' => 'closure',
+            'escaped' => false,
+            'function' => function($value) {
+                $category_name = $value->category_name;
+
+                // if (strlen($description) > 180) {
+                //     $description = substr($description, 0, 180) . "...";
+                // }
+
+                return nl2br($category_name);
+            },
+        ]);
         CRUD::column('title');
         CRUD::column('language');
         CRUD::addColumn([
@@ -57,9 +71,9 @@ class BookCrudController extends CrudController
             'function' => function($value) {
                 $description = $value->description;
 
-                if (strlen($description) > 180) {
-                    $description = substr($description, 0, 180) . "...";
-                }
+                // if (strlen($description) > 180) {
+                //     $description = substr($description, 0, 180) . "...";
+                // }
 
                 return nl2br($description);
             },

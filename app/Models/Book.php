@@ -39,6 +39,11 @@ class Book extends Model
         $this->uploadFileToDisk($value, 'image', 'public', '/');
     }
 
+    public function getCategoryNameAttribute()
+    {
+        return $this->category->full_path;
+    }
+
     # Relationships
 
     public function category()

@@ -51,6 +51,46 @@ class History extends Model
         return $this->created_at->format('F j, Y g:i A');
     }
 
+    public function getCategoryAttribute()
+    {
+        return $this->book->category_name;
+    }
+
+    public function getLanguageAttribute()
+    {
+        return $this->book->language;
+    }
+    
+    public function getDescriptionAttribute()
+    {
+        return $this->book->description;
+    }
+    
+    public function getImageAttribute()
+    {
+        return $this->book->image;
+    }
+
+    public function getAuthorAttribute() 
+    {
+        return $this->book->author;
+    }
+
+    public function getPublisherAttribute()
+    {
+        return $this->book->publisher;
+    }
+    
+    public function getDatePublishedAttribute()
+    {
+        return $this->book->date_published;
+    }
+    
+    public function getPagesAttribute()
+    {
+        return $this->book->pages;
+    }
+
     # Relationships
 
     public function user()

@@ -48,6 +48,53 @@ class HistoryCrudController extends CrudController
     {
         CRUD::column('user_id');
         CRUD::column('book_id');
+
+        // Book detail
+        CRUD::addColumn([
+            'name' => 'category',
+            'type' => 'closure',
+            'escaped' => false,
+            'function' => function($value) {
+                $category = $value->category;
+
+                // if (strlen($description) > 180) {
+                //     $description = substr($description, 0, 180) . "...";
+                // }
+
+                return nl2br($category);
+            },
+        ]);
+        CRUD::column('language');
+        CRUD::addColumn([
+            'name' => 'description',
+            'type' => 'closure',
+            'escaped' => false,
+            'function' => function($value) {
+                $description = $value->description;
+
+                // if (strlen($description) > 180) {
+                //     $description = substr($description, 0, 180) . "...";
+                // }
+
+                return nl2br($description);
+            },
+        ]);
+        CRUD::addColumn([
+            'name' => 'image',
+            'type' => 'image',
+            'disk' => 'public'
+        ]);
+        CRUD::column('author');
+        CRUD::column('publisher');
+        CRUD::addColumn([
+            'name' => 'date_published',
+            'type' => 'date',
+            'format' => 'MMMM D, Y',
+        ]);
+        CRUD::column('pages');
+
+        // --
+
         CRUD::addColumn([
             'name' => 'date_approved_at',
             'label' => 'Date Approved',
