@@ -41,7 +41,7 @@ class Book extends Model
 
     public function getCategoryNameAttribute()
     {
-        return $this->category->full_path;
+        return $this->category?->full_path;
     }
 
     # Relationships
