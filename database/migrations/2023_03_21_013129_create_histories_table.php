@@ -21,8 +21,8 @@ return new class extends Migration
             $table->dateTime('date_approved_at')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('SET NULL');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('CASCADE');
         });
     }
 
