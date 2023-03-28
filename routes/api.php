@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\HistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +25,11 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('whoami', function (Request $request) {
         return $request->user();
     });
+
+    Route::get('categories', [CategoryController::class, 'getCategories']);
+    Route::get('categories/{id}', [CategoryController::class, 'getCategory']);
+    Route::get('categories/{categoryId}/books', [BookController::class, 'getBooks']);
+    Route::post('books/{bookId}/request', [BookController::class, 'requestBorrow']);
+
+    Route::get('history', [HistoryController::class, 'getHistory']);
 });
