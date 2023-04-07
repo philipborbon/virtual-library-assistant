@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+// use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\AuthenticationException;
 
 use App\Models\User;
 
@@ -21,9 +22,7 @@ class AuthenticationController extends Controller
         $user = User::where('library_id', $request->library_id)->first();
      
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            throw new AuthenticationException;
         }
      
         return $user->createToken($user->name)->plainTextToken;
