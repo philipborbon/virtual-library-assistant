@@ -7,6 +7,8 @@ use App\Http\Requests\UserRequestUpdate;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
+use App\Models\User;
+
 /**
  * Class UserCrudController
  * @package App\Http\Controllers\Admin
@@ -19,6 +21,7 @@ class UserCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
 
     public function setup()
     {
@@ -59,5 +62,14 @@ class UserCrudController extends CrudController
         CRUD::field('password')
             ->type('password')
             ->label('Password <small>(Leave blank to retain old password)</label>');
+    }
+
+    public function update()
+    {
+        if ($this->crud->getRequest()->input('password') == null) {
+            $this->crud->getRequest()->request->remove('password');
+        }
+
+        return $this->traitUpdate();
     }
 }
