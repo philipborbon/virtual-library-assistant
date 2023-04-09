@@ -26,6 +26,9 @@ Route::middleware('auth:sanctum')->group(function() {
         return $request->user();
     });
 
+    Route::post('user/push-token', [AuthenticationController::class, 'updatePushToken']);
+    Route::delete('user/push-token', [AuthenticationController::class, 'clearPushToken']);
+
     Route::get('categories', [CategoryController::class, 'getCategories']);
     Route::get('categories/{id}', [CategoryController::class, 'getCategory']);
     Route::get('categories/{categoryId}/books', [BookController::class, 'getBooks']);

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 // use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpFoundation\Response;
 
 use App\Models\User;
 
@@ -26,5 +27,26 @@ class AuthenticationController extends Controller
         }
      
         return $user->createToken($user->name)->plainTextToken;
+    }
+    public function updatePushToken(Request $request)
+    {
+        $request->validate(['push_token' => 'required']);
+
+        $user = $request->user();
+
+        $user->push_token = $request->input('push_token');
+        $user->save();
+
+        return response()->noContent(Response::HTTP_CREATED);
+    }
+
+    public function clearPushToken(Request $request)
+    {
+        $user = $request->user();
+
+        $user->push_token = null;
+        $user->save();
+
+        return response()->noContent();
     }
 }
