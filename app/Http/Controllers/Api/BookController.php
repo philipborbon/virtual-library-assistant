@@ -32,7 +32,7 @@ class BookController extends Controller
             ->first();
 
         if ($history) {
-            return response("You have a pending borrow request for {$book->title}.", 422);
+            return response("You have a pending borrow request for \"{$book->title}\".", 422);
         }
 
         History::create([
