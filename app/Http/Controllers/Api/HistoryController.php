@@ -19,7 +19,6 @@ class HistoryController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-
         return HistoryResource::collection($histories);
     }
 }

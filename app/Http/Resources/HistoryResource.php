@@ -14,18 +14,22 @@ class HistoryResource extends JsonResource
      */
     public function toArray($request)
     {
+        $approved = 0;
+
+        if ($this->approved == null) {
+            $approved = -1;
+        } else {
+            $approved = $this->approved ? 1 : 0;
+        }
+
         return [
             'id' => $this->id,
-            'category' => [
-                'id' => $this->book->category->id,
-                'name' => $this->book->category->name,
-                'path' => $this->book->category->full_path,
-            ],
-            'book' => [
-                'id' => $this->book_id,
-                'name' => $this->book->name,
-            ],
+            'approved' => $approved,
+            'approved_at' => $this->date_approved_at,
+            'category' => new CategoryResource($this->book->category),
+            'book' => $this->book,
             'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
