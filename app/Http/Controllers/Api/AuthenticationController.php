@@ -28,6 +28,21 @@ class AuthenticationController extends Controller
      
         return $user->createToken($user->name)->plainTextToken;
     }
+
+    public function revokeToken(Request $request)
+    {
+        $user = $request->user();
+
+        // Clear login token
+        $user->currentAccessToken()->delete();
+        
+        // Clear push token
+        $user->push_token = null;
+        $user->save();
+
+        return response()->noContent();
+    }
+
     public function updatePushToken(Request $request)
     {
         $request->validate(['push_token' => 'required']);

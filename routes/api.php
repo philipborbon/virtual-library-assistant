@@ -26,6 +26,8 @@ Route::middleware('auth:sanctum')->group(function() {
         return $request->user();
     });
 
+    Route::delete('revoke-token', [AuthenticationController::class, 'revokeToken']);
+
     Route::post('user/push-token', [AuthenticationController::class, 'updatePushToken']);
     Route::delete('user/push-token', [AuthenticationController::class, 'clearPushToken']);
 
