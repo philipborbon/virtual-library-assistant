@@ -26,6 +26,15 @@ class BookController extends Controller
 
         $user = $request->user();
 
+        $history = History::where('user_id', $user->id)
+            ->where('book_id', $book->id)
+            ->whereNull('approved')
+            ->first();
+
+        if ($history) {
+            return response("You have a pending borrow request for {$book->title}.", 422);
+        }
+
         History::create([
             'user_id' => $user->id,
             'book_id' => $book->id,
