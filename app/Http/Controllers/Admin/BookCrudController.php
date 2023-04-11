@@ -33,13 +33,14 @@ class BookCrudController extends CrudController
         CRUD::column('category_id');
         CRUD::column('title');
         CRUD::column('language');
+        CRUD::column('circulation');
         // CRUD::column('description');
         CRUD::addColumn([
             'name' => 'image',
             'type' => 'image',
             'disk' => 'public'
         ]);
-        CRUD::column('author');
+        // CRUD::column('author');
         // CRUD::column('publisher');
         // CRUD::column('date_published');
         // CRUD::column('pages');
@@ -64,6 +65,7 @@ class BookCrudController extends CrudController
         ]);
         CRUD::column('title');
         CRUD::column('language');
+        CRUD::column('circulation');
         CRUD::addColumn([
             'name' => 'description',
             'type' => 'closure',
@@ -91,6 +93,7 @@ class BookCrudController extends CrudController
             'format' => 'MMMM D, Y',
         ]);
         CRUD::column('pages');
+        CRUD::column('available');
     }
 
     protected function setupCreateOperation()
@@ -119,6 +122,17 @@ class BookCrudController extends CrudController
 
         CRUD::field('title');
         CRUD::field('language');
+
+        CRUD::addField([
+            'type' => 'select_from_array',
+            'name' => 'circulation',
+            'options' => [
+                'General' => 'General',
+                'Filipiniana' => 'Filipiniana',
+            ],
+            'allows_null' => false,
+        ]);
+
         CRUD::field('description');
 
         CRUD::addField([
@@ -131,6 +145,7 @@ class BookCrudController extends CrudController
         CRUD::field('publisher');
         CRUD::field('date_published');
         CRUD::field('pages');
+        CRUD::field('available');
     }
 
     protected function setupUpdateOperation()
