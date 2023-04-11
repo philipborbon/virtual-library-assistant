@@ -10,7 +10,7 @@ use App\Http\Resources\HistoryResource;
 
 class HistoryController extends Controller
 {
-    public function getHistory(Request $request)
+    public function getHistories(Request $request)
     {
         $user = $request->user();
 
@@ -20,5 +20,16 @@ class HistoryController extends Controller
             ->get();
 
         return HistoryResource::collection($histories);
+    }
+
+    public function getHistory($historyId, Request $request)
+    {
+        $history = History::find($historyId);
+
+        if (! $history) {
+            abort(404);
+        }
+
+        return new HistoryResource($history);
     }
 }
