@@ -23,6 +23,8 @@ class Book extends Model
         'publisher',
         'date_published',
         'pages',
+        'available',
+        'circulation',
     ];
 
     public static function boot()
