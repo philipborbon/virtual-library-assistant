@@ -19,10 +19,16 @@ class History extends Model
         'book_id',
         'approved',
         'approved_at',
+        'denied_at',
+        'returned_at',
+        'due_at',
     ];
 
     protected $casts = [
         'approved_at' => 'datetime',
+        'denied_at' => 'datetime',
+        'returned_at' => 'datetime',
+        'due_at' => 'datetime',
     ];
 
     public function setApprovedAttribute($value) 
