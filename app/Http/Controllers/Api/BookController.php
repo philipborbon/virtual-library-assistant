@@ -25,7 +25,11 @@ class BookController extends Controller
 
     public function getBooks($categoryId, Request $request)
     {
-        return Book::where('category_id', $categoryId)->get();
+        $books = Book::where('category_id', $categoryId)
+            ->orderBy('title')
+            ->get();
+
+        return BookResource::collection($books);
     }
 
     public function requestBorrow($bookId, Request $request)
