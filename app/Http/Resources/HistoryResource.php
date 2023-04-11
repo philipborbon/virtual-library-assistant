@@ -25,7 +25,7 @@ class HistoryResource extends JsonResource
         return [
             'id' => $this->id,
             'approved' => $approved,
-            'approved_at' => $this->date_approved_at,
+            'approved_at' => $this->approved_at,
             // 'category' => new CategoryResource($this->book->category),
             'book' => $this->book,
             'created_at' => $this->created_at,

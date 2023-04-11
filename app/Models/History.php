@@ -18,21 +18,21 @@ class History extends Model
         'user_id',
         'book_id',
         'approved',
-        'date_approved_at',
+        'approved_at',
     ];
 
     protected $casts = [
-        'date_approved_at' => 'datetime',
+        'approved_at' => 'datetime',
     ];
 
     public function setApprovedAttribute($value) 
     {
         $this->attributes['approved'] = $value;
 
-        if ($value && $this->date_approved_at == null) {
-            $this->attributes['date_approved_at'] = now();
+        if ($value && $this->approved_at == null) {
+            $this->attributes['approved_at'] = now();
         } else {
-            $this->attributes['date_approved_at'] = null;
+            $this->attributes['approved_at'] = null;
         }
     }
 
