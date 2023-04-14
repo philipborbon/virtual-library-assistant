@@ -39,5 +39,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('books/{bookId}/request', [BookController::class, 'requestBorrow']);
 
     Route::get('histories', [HistoryController::class, 'getHistories']);
+    Route::get('histories/overview', [HistoryController::class, 'getOverview']);
     Route::get('histories/{id}', [HistoryController::class, 'getHistory']);
 });

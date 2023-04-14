@@ -13,13 +13,22 @@ class HistoryController extends Controller
     public function getHistories(Request $request)
     {
         $user = $request->user();
+        $show = $request->input('show');
+    
+        $histories = History::where('user_id', $user->id);
 
-        $histories = History::where('user_id', $user->id)
-            ->orderBy('approved')
-            ->orderBy('created_at', 'DESC')
-            ->get();
+        if ($show == 'pendings') {
+            $histories->whereNull('approved');
+        } else if ($show == 'to_return') {
+            $histories->where('approved', true);
+            $histories->whereNull('returned_at');
+        }
 
-        return HistoryResource::collection($histories);
+        
+        $histories->orderBy('approved');
+        $histories->orderBy('created_at', 'DESC');
+
+        return HistoryResource::collection($histories->get());
     }
 
     public function getHistory($historyId, Request $request)
@@ -31,5 +40,27 @@ class HistoryController extends Controller
         }
 
         return new HistoryResource($history);
+    }
+
+    public function getOverview(Request $request) 
+    {
+        $user = $request->user();
+        
+        $pendings = History::where('user_id', $user->id)
+            ->whereNull('approved')
+            ->count();
+
+        $toReturn = History::where('user_id', $user->id)
+            ->where('approved', true)
+            ->whereNull('returned_at')
+            ->count();
+
+        $all = History::where('user_id', $user->id)->count();
+
+        return [
+            'pendings' => $pendings,
+            'to_return' => $toReturn,
+            'all' => $all,
+        ];
     }
 }
