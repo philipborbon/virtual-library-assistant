@@ -24,12 +24,16 @@ class HistoryResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'book' => new BookResource($this->book),
             'approved' => $approved,
-            'approved_at' => $this->date_approved_at,
-            'category' => new CategoryResource($this->book->category),
-            'book' => $this->book,
+
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+
+            'approved_at' => $this->approved_at,
+            'denied_at' => $this->denied_at,
+            'returned_at' => $this->returned_at,
+            'due_at' => $this->due_at,
         ];
     }
 }

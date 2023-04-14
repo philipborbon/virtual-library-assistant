@@ -31,7 +31,7 @@ class HistoryCrudController extends CrudController
         CRUD::column('user_id');
         CRUD::column('book_id');
         CRUD::addColumn([
-            'name' => 'date_approved_at',
+            'name' => 'approved_at',
             'label' => 'Date Approved',
             'type' => 'date',
             'format' => 'MMMM D, Y h:mm A',
@@ -96,7 +96,7 @@ class HistoryCrudController extends CrudController
         // --
 
         CRUD::addColumn([
-            'name' => 'date_approved_at',
+            'name' => 'approved_at',
             'label' => 'Date Approved',
             'type' => 'date',
             'format' => 'MMMM D, Y h:mm A',
