@@ -27,6 +27,7 @@ class UserRequest extends FormRequest
         return [
             'name' => 'Name',
             'library_id' => 'Library ID',
+            'classification' => 'Classification',
             'password' => 'Password',
         ];
     }
