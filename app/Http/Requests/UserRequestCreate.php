@@ -16,6 +16,7 @@ class UserRequestCreate extends UserRequest
         return [
             'name' => 'required',
             'library_id' => "required|unique:users,library_id",
+            'classification' => 'required',
             'password' => 'required',
         ];
     }

@@ -16,6 +16,7 @@ class UserRequestUpdate extends UserRequest
         return [
             'name' => 'required',
             'library_id' => "required|unique:users,library_id," . request()->id,
+            'classification' => 'required',
             // 'password' => 'required',
         ];
     }

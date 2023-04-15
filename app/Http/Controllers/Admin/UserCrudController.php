@@ -34,6 +34,7 @@ class UserCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('library_id')->label("Library ID");
+        CRUD::column('classification');
         // CRUD::column('password');
     }
 
@@ -41,6 +42,7 @@ class UserCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('library_id')->label("Library ID");
+        CRUD::column('classification');
         // CRUD::column('password');
     }
 
@@ -50,6 +52,16 @@ class UserCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('library_id')->label("Library ID");
+        CRUD::addField([
+            'name'        => 'classification',
+            'type'        => 'select_from_array',
+            'allows_null' => false,
+            'options'     => [
+                'Student' => 'Student', 
+                'Faculty' => 'Faculty',
+                'Staff' => 'Staff',
+            ],
+        ]);
         CRUD::field('password')->type('password');
     }
 
@@ -59,6 +71,16 @@ class UserCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('library_id')->label("Library ID");
+        CRUD::addField([
+            'name'        => 'classification',
+            'type'        => 'select_from_array',
+            'allows_null' => false,
+            'options'     => [
+                'Student' => 'Student', 
+                'Faculty' => 'Faculty',
+                'Staff' => 'Staff',
+            ],
+        ]);
         CRUD::field('password')
             ->type('password')
             ->label('Password <small>(Leave blank to retain old password)</label>');
