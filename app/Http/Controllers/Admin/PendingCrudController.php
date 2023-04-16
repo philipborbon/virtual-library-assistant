@@ -60,20 +60,20 @@ class PendingCrudController extends HistoryCrudController
             },
         ]);
         CRUD::column('language');
-        CRUD::addColumn([
-            'name' => 'description',
-            'type' => 'closure',
-            'escaped' => false,
-            'function' => function($value) {
-                $description = $value->description;
+        // CRUD::addColumn([
+        //     'name' => 'description',
+        //     'type' => 'closure',
+        //     'escaped' => false,
+        //     'function' => function($value) {
+        //         $description = $value->description;
 
-                // if (strlen($description) > 180) {
-                //     $description = substr($description, 0, 180) . "...";
-                // }
+        //         // if (strlen($description) > 180) {
+        //         //     $description = substr($description, 0, 180) . "...";
+        //         // }
 
-                return nl2br($description);
-            },
-        ]);
+        //         return nl2br($description);
+        //     },
+        // ]);
         CRUD::addColumn([
             'name' => 'image',
             'type' => 'image',
