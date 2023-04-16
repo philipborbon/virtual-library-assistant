@@ -49,7 +49,7 @@ class PostDenyJob implements ShouldQueue
             'token' => $history->user->push_token,
             'notification' => [
                 'title' => "Borrow Denied: {$history->book->title}",
-                'body' => "Your borrow request for \"{$history->book->title}\" has been denied.",
+                'body' => "Your borrow request has been denied.",
             ],
             'data' => [
                 'id' => $history->id,

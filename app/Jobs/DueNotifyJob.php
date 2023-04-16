@@ -56,7 +56,7 @@ class DueNotifyJob implements ShouldQueue
             'token' => $history->user->push_token,
             'notification' => [
                 'title' => "Due Reminder: {$history->book->title}",
-                'body' => "Please return \"{$history->book->title}\" today.",
+                'body' => "Please return the book you borrowed today.",
             ],
             'data' => [
                 'id' => $history->id,

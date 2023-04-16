@@ -49,7 +49,7 @@ class PostApproveJob implements ShouldQueue
             'token' => $history->user->push_token,
             'notification' => [
                 'title' => "Borrow Approved: {$history->book->title}",
-                'body' => "Your borrow request for \"{$history->book->title}\" has been approved.",
+                'body' => "Your borrow request has been approved.",
             ],
             'data' => [
                 'id' => $history->id,
