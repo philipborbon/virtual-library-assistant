@@ -36,6 +36,27 @@ class PostApproveJob implements ShouldQueue
      */
     public function handle()
     {
-        // 
+        $history = $this->history;
+
+        if (! $history->user->push_token) {
+            Log::error("Unable to notify user({$user->id}), empty push token.");
+            return;
+        }
+
+        $messaging = app('firebase.messaging');
+
+        $message = CloudMessage::fromArray([
+            'token' => $history->user->push_token,
+            'notification' => [
+                'title' => "Borrow Approved: {$history->book->title}",
+                'body' => "Your borrow request for \"{$history->book->title}\" has been approved.",
+            ],
+            'data' => [
+                'id' => $history->id,
+                'type' => 'history',
+            ],
+        ]);
+
+        $messaging->send($message);
     }
 }
