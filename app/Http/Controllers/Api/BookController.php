@@ -44,11 +44,25 @@ class BookController extends Controller
 
         $history = History::where('user_id', $user->id)
             ->where('book_id', $book->id)
-            ->whereNull('approved')
+            ->where(function($query) {
+                $query->whereNull('approved')
+                    ->orWhere(function($query) {
+                        $query->where('approved', true)
+                            ->whereNull('returned_at');
+                    });
+            })
             ->first();
 
         if ($history) {
-            return response("You have a pending borrow request for \"{$book->title}\".", 422);
+            if ($history->approved_at === null) {
+                return response("You have a pending borrow request for \"{$book->title}\".", 422);
+            } else {
+                return response("Please return \"{$book->title}\" before a posting new borrow request.", 422);
+            }
+        }
+
+        if ($book->getAvailable() <= 0) {
+            return response("\"{$book->title}\" has no available copy for borrowing at the moment.", 422);
         }
 
         History::create([

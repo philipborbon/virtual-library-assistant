@@ -25,7 +25,8 @@ class BookResource extends JsonResource
             'publisher' => $this->publisher,
             'date_published' => $this->date_published,
             'pages' => $this->pages,
-            'category' => new CategoryResource($this->category)
+            'is_available' => $this->getAvailable() > 0,
+            'category' => new CategoryResource($this->category),
         ];
     }
 }
