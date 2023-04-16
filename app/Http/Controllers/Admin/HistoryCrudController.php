@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\HistoryRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\ValidationException;
 
 use App\Models\User;
+use App\Models\Book;
 
 /**
  * Class HistoryCrudController
@@ -111,6 +113,18 @@ class HistoryCrudController extends CrudController
         // --
 
         CRUD::addColumn([
+            'name' => 'available',
+            'label' => 'Total Books',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'available_for_borrow',
+            'label' => 'Available',
+        ]);
+
+        // --
+
+        CRUD::addColumn([
             'name' => 'created_at',
             'label' => 'Date Requested',
             'type' => 'date',
@@ -180,7 +194,22 @@ class HistoryCrudController extends CrudController
                 'readonly' => 'readonly',
             ]
         ]);
-
+        CRUD::addField([
+            'name' => 'available',
+            'label' => 'Total Books',
+            'type' => 'text',
+            'attributes' => [
+                'readonly' => 'readonly',
+            ]
+        ]);
+        CRUD::addField([
+            'name' => 'available_for_borrow',
+            'label' => 'Available',
+            'type' => 'text',
+            'attributes' => [
+                'readonly' => 'readonly',
+            ]
+        ]);
 
         $status = 'pending';
 
@@ -195,8 +224,6 @@ class HistoryCrudController extends CrudController
         if ($current->approved_at) {
             $status = 'approved';
         }
-
-        //  TODO: identify other status
 
         CRUD::addField([
             'name' => 'status',
@@ -214,6 +241,15 @@ class HistoryCrudController extends CrudController
 
     public function update()
     {
+        $status = $this->crud->getRequest()->input('status');
+        $current = $this->crud->getCurrentEntry();
+
+        if ($status == 'approved' && $current->book->approved_at == null) {
+            if ($current->book->getAvailable() <= 0) {
+                throw ValidationException::withMessages(['available_for_borrow' => 'There are no books available for borrowing at the moment.']);
+            }
+        }
+
         $this->crud->setOperationSetting('strippedRequest', function($request) {
             $status = $request->input('status');
 

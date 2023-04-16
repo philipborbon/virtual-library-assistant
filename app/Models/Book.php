@@ -52,4 +52,21 @@ class Book extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
+    public function histories()
+    {
+        return $this->hasMany(History::class, 'book_id', 'id');
+    }
+
+    # Functions
+
+    public function getAvailable()
+    {
+        $unReturned = $this->histories()
+            ->whereNotNull('approved_at')
+            ->whereNull('returned_at')
+            ->count();
+
+        return $this->available - $unReturned;
+    }
 }

@@ -43,7 +43,7 @@ class HistoryRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'available_for_borrow' => 'Available',
         ];
     }
 

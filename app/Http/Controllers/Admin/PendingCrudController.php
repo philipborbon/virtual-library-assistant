@@ -60,20 +60,20 @@ class PendingCrudController extends HistoryCrudController
             },
         ]);
         CRUD::column('language');
-        CRUD::addColumn([
-            'name' => 'description',
-            'type' => 'closure',
-            'escaped' => false,
-            'function' => function($value) {
-                $description = $value->description;
+        // CRUD::addColumn([
+        //     'name' => 'description',
+        //     'type' => 'closure',
+        //     'escaped' => false,
+        //     'function' => function($value) {
+        //         $description = $value->description;
 
-                // if (strlen($description) > 180) {
-                //     $description = substr($description, 0, 180) . "...";
-                // }
+        //         // if (strlen($description) > 180) {
+        //         //     $description = substr($description, 0, 180) . "...";
+        //         // }
 
-                return nl2br($description);
-            },
-        ]);
+        //         return nl2br($description);
+        //     },
+        // ]);
         CRUD::addColumn([
             'name' => 'image',
             'type' => 'image',
@@ -81,27 +81,58 @@ class PendingCrudController extends HistoryCrudController
         ]);
         CRUD::column('author');
         CRUD::column('publisher');
-        CRUD::addColumn([
-            'name' => 'date_published',
-            'type' => 'date',
-            'format' => 'MMMM D, Y',
-        ]);
+        // CRUD::addColumn([
+        //     'name' => 'date_published',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y',
+        // ]);
         CRUD::column('pages');
 
         // --
 
-        // CRUD::addColumn([
-        //     'name' => 'approved_at',
-        //     'label' => 'Date Approved',
-        //     'type' => 'date',
-        //     'format' => 'MMMM D, Y h:mm A',
-        // ]);
+        CRUD::addColumn([
+            'name' => 'available',
+            'label' => 'Total Books',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'available_for_borrow',
+            'label' => 'Available',
+        ]);
+
+        // --
+
         CRUD::addColumn([
             'name' => 'created_at',
             'label' => 'Date Requested',
             'type' => 'date',
             'format' => 'MMMM D, Y h:mm A',
         ]);
+        
+        // CRUD::addColumn([
+        //     'name' => 'denied_at',
+        //     'label' => 'Date Denied',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y h:mm A',
+        // ]);
+        // CRUD::addColumn([
+        //     'name' => 'approved_at',
+        //     'label' => 'Date Approved',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y h:mm A',
+        // ]);
+        // CRUD::addColumn([
+        //     'name' => 'due_at',
+        //     'label' => 'Date Due',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y h:mm A',
+        // ]);
+        // CRUD::addColumn([
+        //     'name' => 'returned_at',
+        //     'label' => 'Date Returned',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y h:mm A',
+        // ]);
     }
 
     protected function setupUpdateOperation()
