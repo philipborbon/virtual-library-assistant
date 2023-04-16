@@ -8,6 +8,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 
 use App\Models\History;
+use App\Models\Pending;
 use App\Observers\HistoryObserver;
 
 class EventServiceProvider extends ServiceProvider
@@ -31,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         History::observe(HistoryObserver::class);
+        Pending::observe(HistoryObserver::class);
     }
 
     /**
