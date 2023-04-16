@@ -39,7 +39,7 @@ class PostApproveJob implements ShouldQueue
         $history = $this->history;
 
         if (! $history->user->push_token) {
-            Log::error("Unable to notify user({$user->id}), empty push token.");
+            Log::error("Unable to notify user({$history->user->id}), empty push token.");
             return;
         }
 

@@ -40,13 +40,13 @@ class DueNotifyJob implements ShouldQueue
 
         if (config('app.env') != 'local') {
             if (! $history->due_at->isToday()) {
-                // Skip due reminder if not today
+                Log::error("Skipping due reminder({$history->id}), not today.");
                 return;
             }
         }
 
         if (! $history->user->push_token) {
-            Log::error("Unable to notify user({$user->id}), empty push token.");
+            Log::error("Unable to notify user({$history->user->id}), empty push token.");
             return;
         }
 
