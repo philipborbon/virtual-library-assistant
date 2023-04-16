@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::get('books/{bookId}', [BookController::class, 'getBook']);
     Route::post('books/{bookId}/request', [BookController::class, 'requestBorrow']);
+    Route::post('books/{bookId}/notify', [BookController::class, 'notify']);
 
     Route::get('histories', [HistoryController::class, 'getHistories']);
     Route::get('histories/overview', [HistoryController::class, 'getOverview']);

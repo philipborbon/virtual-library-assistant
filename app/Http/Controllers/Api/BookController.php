@@ -9,6 +9,7 @@ use App\Http\Resources\BookResource;
 
 use App\Models\Book;
 use App\Models\History;
+use App\Models\BookNotify;
 
 class BookController extends Controller
 {
@@ -66,6 +67,23 @@ class BookController extends Controller
         }
 
         History::create([
+            'user_id' => $user->id,
+            'book_id' => $book->id,
+        ]);
+
+        return response()->noContent(Response::HTTP_CREATED);
+    }
+
+    public function notify($bookId, Request $request)
+    {
+        $book = Book::find($bookId);
+        $user = $request->user();
+
+        if (! $book) {
+            abort(404);
+        }
+
+        BookNotify::updateOrCreate([
             'user_id' => $user->id,
             'book_id' => $book->id,
         ]);
