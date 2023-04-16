@@ -58,7 +58,7 @@ class BookController extends Controller
             if ($history->approved_at === null) {
                 return response("You have a pending borrow request.", 422);
             } else {
-                return response("Please return book before a posting new borrow request.", 422);
+                return response("Please return the book you borrowed before posting a new borrow request.", 422);
             }
         }
 
