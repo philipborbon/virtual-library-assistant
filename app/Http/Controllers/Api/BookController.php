@@ -55,14 +55,14 @@ class BookController extends Controller
 
         if ($history) {
             if ($history->approved_at === null) {
-                return response("You have a pending borrow request for \"{$book->title}\".", 422);
+                return response("You have a pending borrow request.", 422);
             } else {
-                return response("Please return \"{$book->title}\" before a posting new borrow request.", 422);
+                return response("Please return book before a posting new borrow request.", 422);
             }
         }
 
         if ($book->getAvailable() <= 0) {
-            return response("\"{$book->title}\" has no available copy for borrowing at the moment.", 422);
+            return response("Book has no available copy for borrowing at the moment.", 423);
         }
 
         History::create([
