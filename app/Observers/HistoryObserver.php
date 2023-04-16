@@ -14,8 +14,18 @@ class HistoryObserver
     {
         if ($history->isDirty('approved_at') && $history->approved_at) {
             PostApproveJob::dispatch($history);
+
+            $notifyAt = $history->due_at;
+            $notifyAt->hour = 8;
+            $notifyAt->minute = 0;
+            $notifyAt->second = 0;
+
+            if (config('app.env') == 'local') {
+                $notifyAt = now()->addSeconds(10);
+            }
+
             DueNotifyJob::dispatch($history)
-                ->delay($history->due_at);
+                ->delay($notifyAt);
         }
 
         if ($history->isDirty('denied_at') && $history->denied_at) {
