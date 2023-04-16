@@ -27,7 +27,11 @@ class HistoryRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'book_id' => 'required|exists:books,id',
-            'approved' => 'nullable|boolean',
+            'approved' => 'nullable',
+            'approved_at' => 'nullable',
+            'denied_at' => 'nullable',
+            'returned_at' => 'nullable',
+            'due_at' => 'nullable',
         ];
     }
 

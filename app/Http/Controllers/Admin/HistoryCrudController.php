@@ -6,6 +6,8 @@ use App\Http\Requests\HistoryRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
+use App\Models\User;
+
 /**
  * Class HistoryCrudController
  * @package App\Http\Controllers\Admin
@@ -18,6 +20,7 @@ class HistoryCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
 
     public function setup()
     {
@@ -28,20 +31,32 @@ class HistoryCrudController extends CrudController
 
     protected function setupListOperation()
     {
-        CRUD::column('user_id');
         CRUD::column('book_id');
-        CRUD::addColumn([
-            'name' => 'approved_at',
-            'label' => 'Date Approved',
-            'type' => 'date',
-            'format' => 'MMMM D, Y h:mm A',
-        ]);
+        // CRUD::addColumn([
+        //     'name' => 'approved_at',
+        //     'label' => 'Date Approved',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y h:mm A',
+        // ]);
         CRUD::addColumn([
             'name' => 'created_at',
             'label' => 'Date Requested',
             'type' => 'date',
             'format' => 'MMMM D, Y h:mm A',
         ]);
+        CRUD::addColumn([
+            'name' => 'due_at',
+            'label' => 'Date Due',
+            'type' => 'date',
+            'format' => 'MMMM D, Y h:mm A',
+        ]);
+        CRUD::addColumn([
+            'name' => 'returned_at',
+            'label' => 'Date Returned',
+            'type' => 'date',
+            'format' => 'MMMM D, Y h:mm A',
+        ]);
+        CRUD::column('user_id');
     }
 
     protected function setupShowOperation()
@@ -65,20 +80,20 @@ class HistoryCrudController extends CrudController
             },
         ]);
         CRUD::column('language');
-        CRUD::addColumn([
-            'name' => 'description',
-            'type' => 'closure',
-            'escaped' => false,
-            'function' => function($value) {
-                $description = $value->description;
+        // CRUD::addColumn([
+        //     'name' => 'description',
+        //     'type' => 'closure',
+        //     'escaped' => false,
+        //     'function' => function($value) {
+        //         $description = $value->description;
 
-                // if (strlen($description) > 180) {
-                //     $description = substr($description, 0, 180) . "...";
-                // }
+        //         // if (strlen($description) > 180) {
+        //         //     $description = substr($description, 0, 180) . "...";
+        //         // }
 
-                return nl2br($description);
-            },
-        ]);
+        //         return nl2br($description);
+        //     },
+        // ]);
         CRUD::addColumn([
             'name' => 'image',
             'type' => 'image',
@@ -86,15 +101,27 @@ class HistoryCrudController extends CrudController
         ]);
         CRUD::column('author');
         CRUD::column('publisher');
-        CRUD::addColumn([
-            'name' => 'date_published',
-            'type' => 'date',
-            'format' => 'MMMM D, Y',
-        ]);
+        // CRUD::addColumn([
+        //     'name' => 'date_published',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y',
+        // ]);
         CRUD::column('pages');
 
         // --
 
+        CRUD::addColumn([
+            'name' => 'created_at',
+            'label' => 'Date Requested',
+            'type' => 'date',
+            'format' => 'MMMM D, Y h:mm A',
+        ]);
+        CRUD::addColumn([
+            'name' => 'denied_at',
+            'label' => 'Date Denied',
+            'type' => 'date',
+            'format' => 'MMMM D, Y h:mm A',
+        ]);
         CRUD::addColumn([
             'name' => 'approved_at',
             'label' => 'Date Approved',
@@ -102,35 +129,24 @@ class HistoryCrudController extends CrudController
             'format' => 'MMMM D, Y h:mm A',
         ]);
         CRUD::addColumn([
-            'name' => 'created_at',
-            'label' => 'Date Requested',
+            'name' => 'due_at',
+            'label' => 'Date Due',
             'type' => 'date',
             'format' => 'MMMM D, Y h:mm A',
         ]);
-    }
-
-    protected function setupCreateOperation()
-    {
-        CRUD::setValidation(HistoryRequest::class);
-
-        CRUD::field('user_id');
-        CRUD::field('book_id');
-        CRUD::addField([
-            'name' => 'approved',
-            'label' => 'Status',
-            'type' => 'select_from_array',
-            'options' => [
-                null => 'Pending',
-                1 => 'Approved',
-                0 => 'Denied',
-            ],
-            'allows_null' => false,
+        CRUD::addColumn([
+            'name' => 'returned_at',
+            'label' => 'Date Returned',
+            'type' => 'date',
+            'format' => 'MMMM D, Y h:mm A',
         ]);
     }
 
     protected function setupUpdateOperation()
     {
         CRUD::setValidation(HistoryRequest::class);
+
+        $current = $this->crud->getCurrentEntry();
 
         CRUD::addField([
             'name' => 'user_name',
@@ -164,16 +180,104 @@ class HistoryCrudController extends CrudController
                 'readonly' => 'readonly',
             ]
         ]);
+
+
+        $status = 'pending';
+
+        if ($current->denied_at) {
+            $status = 'denied';
+        }
+
+        if ($current->returned_at) {
+            $status = 'returned';
+        }
+
+        if ($current->approved_at) {
+            $status = 'approved';
+        }
+
+        //  TODO: identify other status
+
         CRUD::addField([
-            'name' => 'approved',
-            'label' => 'Status',
+            'name' => 'status',
             'type' => 'select_from_array',
             'options' => [
-                null => 'Pending',
-                1 => 'Approved',
-                0 => 'Denied',
+                'denied' => 'Denied',
+                'pending' => 'Pending',
+                'approved' => 'Approved',
+                'returned' => 'Returned',
             ],
             'allows_null' => false,
+            'default' => $status,
         ]);
+    }
+
+    public function update()
+    {
+        $this->crud->setOperationSetting('strippedRequest', function($request) {
+            $status = $request->input('status');
+
+            if ($status) {
+                switch ($status) {
+                    case 'denied':
+                        $request->request->add(['approved' => false]);
+                        $request->request->add(['approved_at' => null]);
+                        $request->request->add(['denied_at' => now()]);
+                        $request->request->add(['returned_at' => null]);
+                        $request->request->add(['due_at' => null]);
+                    break;
+
+                    case 'pending':
+                        $request->request->add(['approved' => null]);
+                        $request->request->add(['approved_at' => null]);
+                        $request->request->add(['denied_at' => null]);
+                        $request->request->add(['returned_at' => null]);
+                        $request->request->add(['due_at' => null]);
+                    break;
+
+                    case 'approved':
+                        $request->request->add(['approved' => true]);
+                        $request->request->add(['approved_at' => now()]);
+                        $request->request->add(['denied_at' => null]);
+                        $request->request->add(['returned_at' => null]);
+
+                        $user = User::find($request->input('user_id'));
+                        $dueAt = now();
+
+                        switch($user->classification) {
+                        case 'faculty':
+                        case 'staff':
+                            $dueAt = now()->addYear();
+                        break;
+
+                        case 'student':
+                        default:
+                            $dueAt = now()->addDays(3);
+                        break;
+                        }
+
+                        $request->request->add(['due_at' => $dueAt]);
+                    break;
+
+                    case 'returned':
+                        $request->request->add(['returned_at' => now()]);
+                    break;
+                }
+            }
+
+            return $request->except([
+                '_token', 
+                '_method', 
+                '_http_referrer', 
+                '_save_action',
+
+                'book_title',
+                'user_name',
+                'date_requested',
+                'status',
+            ]);
+        });
+
+        return $this->traitUpdate();
     }
 }
