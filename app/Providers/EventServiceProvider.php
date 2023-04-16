@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Event;
 
 use App\Models\History;
 use App\Models\Pending;
+use App\Models\Book;
 use App\Observers\HistoryObserver;
+use App\Observers\BookObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,7 @@ class EventServiceProvider extends ServiceProvider
     {
         History::observe(HistoryObserver::class);
         Pending::observe(HistoryObserver::class);
+        Book::observe(BookObserver::class);
     }
 
     /**

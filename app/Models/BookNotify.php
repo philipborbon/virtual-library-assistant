@@ -13,4 +13,16 @@ class BookNotify extends Model
         'user_id',
         'book_id',
     ];
+
+    # Relationships
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class, 'book_id', 'id');
+    }
 }
