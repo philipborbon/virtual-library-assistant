@@ -38,6 +38,16 @@ class DueNotifyJob implements ShouldQueue
     {
         $history = $this->history;
 
+        if ($history->returned_at) {
+            Log::error("Skipping due reminder({$history->id}), invalid.");
+            return;
+        }
+
+        if (! $history->due_at) {
+            Log::error("Skipping due reminder({$history->id}), invalid.");
+            return;
+        }
+
         if (config('app.env') != 'local') {
             if (! $history->due_at->isToday()) {
                 Log::error("Skipping due reminder({$history->id}), not today.");
