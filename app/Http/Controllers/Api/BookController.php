@@ -33,6 +33,20 @@ class BookController extends Controller
         return BookResource::collection($books);
     }
 
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        $books = Book::where('title', 'LIKE', "%{$keyword}%")
+            ->orWhere('description', 'LIKE', "%{$keyword}%")
+            ->orWhere('author', 'LIKE', "%{$keyword}%")
+            ->orWhere('publisher', 'LIKE', "%{$keyword}%")
+            ->orderBy('title')
+            ->get();
+
+        return BookResource::collection($books);
+    }
+
     public function requestBorrow($bookId, Request $request)
     {
         $book = Book::find($bookId);
