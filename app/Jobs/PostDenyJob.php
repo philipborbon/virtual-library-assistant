@@ -47,6 +47,7 @@ class PostDenyJob implements ShouldQueue
 
         $message = CloudMessage::fromArray([
             'token' => $history->user->push_token,
+            'priority' => 'high',
             'notification' => [
                 'title' => "Borrow Denied: {$history->book->title}",
                 'body' => "Your borrow request has been denied.",

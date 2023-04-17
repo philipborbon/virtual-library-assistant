@@ -55,6 +55,7 @@ class CheckBookAvailability implements ShouldQueue
 
         $message = CloudMessage::fromArray([
             // 'token' => $item->user->push_token,
+            'priority' => 'high',
             'notification' => [
                 'title' => "Book Available: {$book->title}",
                 'body' => "Book is now available.",

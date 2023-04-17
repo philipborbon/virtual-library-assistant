@@ -47,6 +47,7 @@ class PostApproveJob implements ShouldQueue
 
         $message = CloudMessage::fromArray([
             'token' => $history->user->push_token,
+            'priority' => 'high',
             'notification' => [
                 'title' => "Borrow Approved: {$history->book->title}",
                 'body' => "Your borrow request has been approved.",

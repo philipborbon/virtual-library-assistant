@@ -54,6 +54,7 @@ class DueNotifyJob implements ShouldQueue
 
         $message = CloudMessage::fromArray([
             'token' => $history->user->push_token,
+            'priority' => 'high',
             'notification' => [
                 'title' => "Due Reminder: {$history->book->title}",
                 'body' => "Please return the book you borrowed today.",
