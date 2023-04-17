@@ -41,6 +41,7 @@ class BookController extends Controller
             ->orWhere('description', 'LIKE', "%{$keyword}%")
             ->orWhere('author', 'LIKE', "%{$keyword}%")
             ->orWhere('publisher', 'LIKE', "%{$keyword}%")
+            ->orWhere('circulation', 'LIKE', "%{$keyword}%")
             ->orderBy('title')
             ->get();
 
