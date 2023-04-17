@@ -81,27 +81,58 @@ class PendingCrudController extends HistoryCrudController
         ]);
         CRUD::column('author');
         CRUD::column('publisher');
-        CRUD::addColumn([
-            'name' => 'date_published',
-            'type' => 'date',
-            'format' => 'MMMM D, Y',
-        ]);
+        // CRUD::addColumn([
+        //     'name' => 'date_published',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y',
+        // ]);
         CRUD::column('pages');
 
         // --
 
-        // CRUD::addColumn([
-        //     'name' => 'approved_at',
-        //     'label' => 'Date Approved',
-        //     'type' => 'date',
-        //     'format' => 'MMMM D, Y h:mm A',
-        // ]);
+        CRUD::addColumn([
+            'name' => 'available',
+            'label' => 'Total Books',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'available_for_borrow',
+            'label' => 'Available',
+        ]);
+
+        // --
+
         CRUD::addColumn([
             'name' => 'created_at',
             'label' => 'Date Requested',
             'type' => 'date',
             'format' => 'MMMM D, Y h:mm A',
         ]);
+        
+        // CRUD::addColumn([
+        //     'name' => 'denied_at',
+        //     'label' => 'Date Denied',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y h:mm A',
+        // ]);
+        // CRUD::addColumn([
+        //     'name' => 'approved_at',
+        //     'label' => 'Date Approved',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y h:mm A',
+        // ]);
+        // CRUD::addColumn([
+        //     'name' => 'due_at',
+        //     'label' => 'Date Due',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y h:mm A',
+        // ]);
+        // CRUD::addColumn([
+        //     'name' => 'returned_at',
+        //     'label' => 'Date Returned',
+        //     'type' => 'date',
+        //     'format' => 'MMMM D, Y h:mm A',
+        // ]);
     }
 
     protected function setupUpdateOperation()

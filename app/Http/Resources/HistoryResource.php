@@ -16,8 +16,8 @@ class HistoryResource extends JsonResource
     {
         $approved = 0;
 
-        if ($this->approved == null) {
-            $approved = -1;
+        if ($this->approved === null) {
+            $approved = -1; 
         } else {
             $approved = $this->approved ? 1 : 0;
         }

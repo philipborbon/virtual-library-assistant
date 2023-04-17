@@ -97,6 +97,16 @@ class History extends Model
         return $this->book->pages;
     }
 
+    public function getAvailableAttribute()
+    {
+        return $this->book->available;
+    }
+
+    public function getAvailableForBorrowAttribute()
+    {
+        return $this->book->getAvailable();
+    }
+
     # Relationships
 
     public function user()

@@ -7,6 +7,12 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
+use App\Models\History;
+use App\Models\Pending;
+use App\Models\Book;
+use App\Observers\HistoryObserver;
+use App\Observers\BookObserver;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -27,7 +33,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        History::observe(HistoryObserver::class);
+        Pending::observe(HistoryObserver::class);
+        Book::observe(BookObserver::class);
     }
 
     /**

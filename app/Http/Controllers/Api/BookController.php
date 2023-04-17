@@ -9,6 +9,7 @@ use App\Http\Resources\BookResource;
 
 use App\Models\Book;
 use App\Models\History;
+use App\Models\BookNotify;
 
 class BookController extends Controller
 {
@@ -44,14 +45,45 @@ class BookController extends Controller
 
         $history = History::where('user_id', $user->id)
             ->where('book_id', $book->id)
-            ->whereNull('approved')
+            ->where(function($query) {
+                $query->whereNull('approved')
+                    ->orWhere(function($query) {
+                        $query->where('approved', true)
+                            ->whereNull('returned_at');
+                    });
+            })
             ->first();
 
         if ($history) {
-            return response("You have a pending borrow request for \"{$book->title}\".", 422);
+            if ($history->approved_at === null) {
+                return response("You have a pending borrow request.", 422);
+            } else {
+                return response("Please return the book you borrowed before posting a new borrow request.", 422);
+            }
+        }
+
+        if ($book->getAvailable() <= 0) {
+            return response("Book has no available copy for borrowing at the moment.", 423);
         }
 
         History::create([
+            'user_id' => $user->id,
+            'book_id' => $book->id,
+        ]);
+
+        return response()->noContent(Response::HTTP_CREATED);
+    }
+
+    public function notify($bookId, Request $request)
+    {
+        $book = Book::find($bookId);
+        $user = $request->user();
+
+        if (! $book) {
+            abort(404);
+        }
+
+        BookNotify::updateOrCreate([
             'user_id' => $user->id,
             'book_id' => $book->id,
         ]);
