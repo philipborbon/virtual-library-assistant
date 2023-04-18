@@ -280,7 +280,7 @@ class HistoryCrudController extends CrudController
                         $user = User::find($request->input('user_id'));
                         $dueAt = now();
 
-                        switch($user->classification) {
+                        switch(strtolower($user->classification)) {
                         case 'faculty':
                         case 'staff':
                             $dueAt = now()->addYear();
