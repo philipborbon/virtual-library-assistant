@@ -31,4 +31,9 @@ class User extends Model
             ->whereNull('returned_at')
             ->count();
     }
+
+    public function isBorrowLimitReached()
+    {
+        return strtolower($this->classification) == 'student' && $this->active_borrow >= 3;
+    }
 }

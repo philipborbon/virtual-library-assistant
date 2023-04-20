@@ -77,7 +77,7 @@ class BookController extends Controller
             }
         }
 
-        if (strtolower($user->classification) == 'student' && $user->active_borrow >= 3) {
+        if ($user->isBorrowLimitReached()) {
             return response("You have reached the maximum number of books allowed to be borrowed.\n\nPlease return the books you borrowed before posting a new borrow request.", 429);
         }
 
