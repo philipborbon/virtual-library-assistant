@@ -23,7 +23,6 @@ class HistoryController extends Controller
             $histories->where('approved', true);
             $histories->whereNull('returned_at');
         }
-
         
         $histories->orderBy('approved');
         $histories->orderBy('created_at', 'DESC');
@@ -40,6 +39,25 @@ class HistoryController extends Controller
         }
 
         return new HistoryResource($history);
+    }
+
+    public function cancel($historyId, Request $request)
+    {
+        $history = History::find($historyId);
+
+        if (! $history) {
+            abort(404);
+        }
+
+        if ($history->approved === null) {
+            $history->delete();
+        } else if ($history->approved) {
+            return response("Your request has already been approved. Please approach an administrator to get your request cancelled.", 422);
+        } else {
+            return response("Your request has already been denied. No further action is required from you.", 422);
+        }
+
+        return response()->noContent();
     }
 
     public function getOverview(Request $request) 

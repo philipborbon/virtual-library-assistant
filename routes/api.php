@@ -43,4 +43,5 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('histories', [HistoryController::class, 'getHistories']);
     Route::get('histories/overview', [HistoryController::class, 'getOverview']);
     Route::get('histories/{id}', [HistoryController::class, 'getHistory']);
+    Route::post('histories/{id}/cancel', [HistoryController::class, 'cancel']);
 });
