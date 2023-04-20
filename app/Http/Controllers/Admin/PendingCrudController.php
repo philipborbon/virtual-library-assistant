@@ -100,6 +100,11 @@ class PendingCrudController extends HistoryCrudController
             'label' => 'Available',
         ]);
 
+        CRUD::addColumn([
+            'name' => 'user_active_borrow',
+            'label' => 'Unreturned By User',
+        ]);
+
         // --
 
         CRUD::addColumn([

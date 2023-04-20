@@ -122,6 +122,11 @@ class HistoryCrudController extends CrudController
             'label' => 'Available',
         ]);
 
+        CRUD::addColumn([
+            'name' => 'user_active_borrow',
+            'label' => 'Unreturned By User',
+        ]);
+
         // --
 
         CRUD::addColumn([
@@ -205,6 +210,14 @@ class HistoryCrudController extends CrudController
         CRUD::addField([
             'name' => 'available_for_borrow',
             'label' => 'Available',
+            'type' => 'text',
+            'attributes' => [
+                'readonly' => 'readonly',
+            ]
+        ]);
+        CRUD::addField([
+            'name' => 'user_active_borrow',
+            'label' => 'Unreturned By User',
             'type' => 'text',
             'attributes' => [
                 'readonly' => 'readonly',
