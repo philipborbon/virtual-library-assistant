@@ -23,4 +23,12 @@ class User extends Model
     {
         $this->attributes['password'] = Hash::make($value);
     }
+
+    public function getActiveBorrowAttribute()
+    {
+        return History::where('user_id', $this->id)
+            ->where('approved', true)
+            ->whereNull('returned_at')
+            ->count();
+    }
 }

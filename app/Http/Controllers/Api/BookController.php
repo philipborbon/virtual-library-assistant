@@ -100,15 +100,8 @@ class BookController extends Controller
             }
         }
 
-        if (strtolower($user->classification) == 'student') {
-            $borrowedCount = History::where('user_id', $user->id)
-                ->where('approved', true)
-                ->whereNull('returned_at')
-                ->count();
-
-            if ($borrowedCount >= 3) {
-                return response("You have reached the maximum number of books allowed to be borrowed.\n\nPlease return the books you borrowed before posting a new borrow request.", 429);
-            }
+        if (strtolower($user->classification) == 'student' && $user->active_borrow >= 3) {
+            return response("You have reached the maximum number of books allowed to be borrowed.\n\nPlease return the books you borrowed before posting a new borrow request.", 429);
         }
 
         if ($book->getAvailable() <= 0) {

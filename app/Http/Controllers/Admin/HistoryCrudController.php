@@ -250,6 +250,10 @@ class HistoryCrudController extends CrudController
             }
         }
 
+        if ((strtolower($current->user->classification) == 'student') && $current->user_active_borrow >= 3) {
+            throw ValidationException::withMessages(['user_active_borrow' => 'The student has reached his/her maximum number of books allowed to be borrowed.']);
+        }
+
         $this->crud->setOperationSetting('strippedRequest', function($request) {
             $status = $request->input('status');
 
@@ -313,6 +317,7 @@ class HistoryCrudController extends CrudController
                 'status',
                 'available',
                 'available_for_borrow',
+                'user_active_borrow',
             ]);
         });
 

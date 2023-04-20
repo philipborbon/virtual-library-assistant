@@ -107,6 +107,11 @@ class History extends Model
         return $this->book->getAvailable();
     }
 
+    public function getUserActiveBorrowAttribute()
+    {
+        return $this->user->active_borrow;
+    }
+
     # Relationships
 
     public function user()
