@@ -6,6 +6,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookResource extends JsonResource
 {
+    protected $status;
+
+    public function __construct($resource, $status = null)
+    {
+        parent::__construct($resource);
+
+        $this->status = $status;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -27,6 +36,7 @@ class BookResource extends JsonResource
             'date_published' => $this->date_published,
             'pages' => $this->pages,
             'is_available' => $this->getAvailable() > 0,
+            'last_request_status' => $this->status,
             'category' => new CategoryResource($this->category),
         ];
     }

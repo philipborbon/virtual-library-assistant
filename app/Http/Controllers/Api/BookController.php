@@ -21,7 +21,30 @@ class BookController extends Controller
             abort(404);
         }
 
-        return new BookResource($book);
+        $user = $request->user();
+
+        $history = History::where('book_id', $book->id)
+            ->where('user_id', $user->id)
+            ->latest()
+            ->first();
+
+        $status = null;
+
+        if ($history) {
+            if ($history->approved === null) {
+                $status = 'pending';
+            } else if ($history->approved) {
+                if ($history->returned_at) {
+                    $status = 'returned';
+                } else {
+                    $status = 'approved';
+                }
+            } else {
+                $status = 'denied';
+            }
+        }
+
+        return new BookResource($book, $status);
     }
 
     public function getBooks($categoryId, Request $request)
