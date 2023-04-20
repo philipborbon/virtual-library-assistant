@@ -217,12 +217,12 @@ class HistoryCrudController extends CrudController
             $status = 'denied';
         }
 
-        if ($current->returned_at) {
-            $status = 'returned';
-        }
-
         if ($current->approved_at) {
             $status = 'approved';
+        }
+
+        if ($current->returned_at) {
+            $status = 'returned';
         }
 
         CRUD::addField([
@@ -311,6 +311,8 @@ class HistoryCrudController extends CrudController
                 'user_name',
                 'date_requested',
                 'status',
+                'available',
+                'available_for_borrow',
             ]);
         });
 
