@@ -51,6 +51,10 @@ class CheckBookAvailability implements ShouldQueue
             $pushTokens[] = $item->user->push_token;
         }
 
+        if (! $pushTokens) {
+            return;
+        }
+
         $messaging = app('firebase.messaging');
 
         $message = CloudMessage::fromArray([
