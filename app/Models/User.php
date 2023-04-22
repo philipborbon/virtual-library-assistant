@@ -41,6 +41,11 @@ class User extends Model
 
     public function isBorrowLimitReached()
     {
+        return strtolower($this->classification) == 'student' && $this->active_borrow >= 3;
+    }
+
+    public function isRequestLimitReached()
+    {
         return strtolower($this->classification) == 'student' 
             && ($this->active_borrow + $this->pending) >= 3;
     }

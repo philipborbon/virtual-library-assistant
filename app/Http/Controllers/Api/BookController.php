@@ -77,7 +77,7 @@ class BookController extends Controller
             }
         }
 
-        if ($user->isBorrowLimitReached()) {
+        if ($user->isRequestLimitReached()) {
             // return response("You have reached the maximum number of books allowed to be borrowed.\n\nPlease return the books you borrowed before posting a new borrow request.", 429);
             return response("You have reached the maximum number of books allowed to be borrowed.", 429);
         }
