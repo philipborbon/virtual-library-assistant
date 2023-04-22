@@ -261,10 +261,10 @@ class HistoryCrudController extends CrudController
             if ($current->book->getAvailable() <= 0) {
                 throw ValidationException::withMessages(['available_for_borrow' => 'There are no books available for borrowing at the moment.']);
             }
-        }
 
-        if ($current->user->isBorrowLimitReached()) {
-            throw ValidationException::withMessages(['user_active_borrow' => 'The student has reached his/her maximum number of books allowed to be borrowed.']);
+            if ($current->user->isBorrowLimitReached()) {
+                throw ValidationException::withMessages(['user_active_borrow' => 'The student has reached his/her maximum number of books allowed to be borrowed.']);
+            }
         }
 
         $this->crud->setOperationSetting('strippedRequest', function($request) {
