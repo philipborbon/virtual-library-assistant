@@ -6,6 +6,7 @@ use App\Models\History;
 use App\Jobs\PostApproveJob;
 use App\Jobs\PostDenyJob;
 use App\Jobs\DueNotifyJob;
+use App\Jobs\PostReturnJob;
 use App\Jobs\CheckBookAvailability;
 
 class HistoryObserver
@@ -33,6 +34,8 @@ class HistoryObserver
         }
 
         if ($history->isDirty('returned_at') && $history->returned_at) {
+            PostReturnJob::dispatch($history);
+            
             CheckBookAvailability::dispatch($history->book)
                 ->delay(now()->addSecond());
         }
