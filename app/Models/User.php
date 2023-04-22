@@ -32,8 +32,16 @@ class User extends Model
             ->count();
     }
 
+    public function getPendingAttribute()
+    {
+        return History::where('user_id', $this->id)
+            ->whereNull('approved')
+            ->count();
+    }
+
     public function isBorrowLimitReached()
     {
-        return strtolower($this->classification) == 'student' && $this->active_borrow >= 3;
+        return strtolower($this->classification) == 'student' 
+            && ($this->active_borrow + $this->pending) >= 3;
     }
 }
