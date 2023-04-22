@@ -257,7 +257,7 @@ class HistoryCrudController extends CrudController
         $status = $this->crud->getRequest()->input('status');
         $current = $this->crud->getCurrentEntry();
 
-        if ($status == 'approved' && $current->book->approved_at == null) {
+        if ($status == 'approved' && $current->approved_at == null) {
             if ($current->book->getAvailable() <= 0) {
                 throw ValidationException::withMessages(['available_for_borrow' => 'There are no books available for borrowing at the moment.']);
             }
@@ -265,6 +265,10 @@ class HistoryCrudController extends CrudController
             if ($current->user->isBorrowLimitReached()) {
                 throw ValidationException::withMessages(['user_active_borrow' => 'The student has reached his/her maximum number of books allowed to be borrowed.']);
             }
+        }
+
+        if ($status == 'returned' && $current->approved_at == null) {
+            throw ValidationException::withMessages(['status' => 'Status update failed. Only approved request can be set to returned.']);
         }
 
         $this->crud->setOperationSetting('strippedRequest', function($request) {
