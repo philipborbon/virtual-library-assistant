@@ -16,7 +16,8 @@ class Category extends Model
     protected $fillable = [
         'name',
         'parent_id',
-        'path'
+        'path',
+        'is_borrowable',
     ];
 
     public function setParentIdAttribute($value) 
