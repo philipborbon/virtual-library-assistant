@@ -30,12 +30,22 @@ class CategoryCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('parent_id');
+        CRUD::addColumn([
+            'name' => 'is_borrowable',
+            'label' => 'Can be borrowed?',
+            'type' => 'boolean',
+        ]);
     }
 
     protected function setupShowOperation()
     {
         CRUD::column('name');
         CRUD::column('path')->label('Parent');
+        CRUD::addColumn([
+            'name' => 'is_borrowable',
+            'label' => 'Can be borrowed?',
+            'type' => 'boolean',
+        ]);
     }
 
     protected function setupCreateOperation()
@@ -55,6 +65,17 @@ class CategoryCrudController extends CrudController
                     ->orderBy('name', 'ASC')
                     ->get();
             }),
+        ]);
+
+        CRUD::addField([
+            'type' => 'select_from_array',
+            'name' => 'is_borrowable',
+            'label' => 'Can be borrowed?',
+            'options' => [
+                1 => 'Yes',
+                0 => 'No',
+            ],
+            'allows_null' => false,
         ]);
     }
     
@@ -82,6 +103,17 @@ class CategoryCrudController extends CrudController
                     ->orderBy('name', 'ASC')
                     ->get();
             }),
+        ]);
+
+        CRUD::addField([
+            'type' => 'select_from_array',
+            'name' => 'is_borrowable',
+            'label' => 'Can be borrowed?',
+            'options' => [
+                1 => 'Yes',
+                0 => 'No',
+            ],
+            'allows_null' => false,
         ]);
     }
 }

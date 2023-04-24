@@ -26,7 +26,8 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'parent_id' => 'nullable|exists:categories,id'
+            'parent_id' => 'nullable|exists:categories,id',
+            'is_borrowable' => 'boolean',
         ];
     }
 
