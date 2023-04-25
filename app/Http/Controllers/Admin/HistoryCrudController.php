@@ -67,20 +67,7 @@ class HistoryCrudController extends CrudController
         CRUD::column('book_id');
 
         // Book detail
-        CRUD::addColumn([
-            'name' => 'category',
-            'type' => 'closure',
-            'escaped' => false,
-            'function' => function($value) {
-                $category = $value->category;
-
-                // if (strlen($description) > 180) {
-                //     $description = substr($description, 0, 180) . "...";
-                // }
-
-                return nl2br($category);
-            },
-        ]);
+        CRUD::column('category');
         CRUD::column('language');
         // CRUD::addColumn([
         //     'name' => 'description',
@@ -188,6 +175,14 @@ class HistoryCrudController extends CrudController
             ]
         ]);
         CRUD::addField([
+            'name' => 'category',
+            // 'label' => 'Book',
+            'type' => 'text',
+            'attributes' => [
+                'readonly' => 'readonly',
+            ]
+        ]);
+        CRUD::addField([
             'name' => 'book_id',
             'type' => 'hidden'
         ]);
@@ -258,6 +253,10 @@ class HistoryCrudController extends CrudController
         $current = $this->crud->getCurrentEntry();
 
         if ($status == 'approved' && $current->approved_at == null) {
+            if (! $current->book->canBeBorrowed()) {
+                throw ValidationException::withMessages(['category' => 'Books under this category is not allowed to be borrowed.']);
+            }
+
             if ($current->book->getAvailable() <= 0) {
                 throw ValidationException::withMessages(['available_for_borrow' => 'There are no books available for borrowing at the moment.']);
             }
@@ -329,6 +328,7 @@ class HistoryCrudController extends CrudController
                 '_save_action',
 
                 'book_title',
+                'category',
                 'user_name',
                 'date_requested',
                 'status',

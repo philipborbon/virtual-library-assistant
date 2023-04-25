@@ -45,20 +45,7 @@ class PendingCrudController extends HistoryCrudController
         CRUD::column('book_id');
 
         // Book detail
-        CRUD::addColumn([
-            'name' => 'category',
-            'type' => 'closure',
-            'escaped' => false,
-            'function' => function($value) {
-                $category = $value->category;
-
-                // if (strlen($description) > 180) {
-                //     $description = substr($description, 0, 180) . "...";
-                // }
-
-                return nl2br($category);
-            },
-        ]);
+        CRUD::column('category');
         CRUD::column('language');
         // CRUD::addColumn([
         //     'name' => 'description',
