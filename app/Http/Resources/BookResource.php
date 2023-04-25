@@ -55,6 +55,7 @@ class BookResource extends JsonResource
             '_meta' => [
                 'is_available' => $this->getAvailable() > 0,
                 'limit_reached' => $user->isRequestLimitReached(),
+                'can_be_borrowed' => $this->canBeBorrowed(),
                 'active_borrow' => $user->active_borrow,
                 'last_request_id' => $history?->id,
                 'last_request_status' => $status,

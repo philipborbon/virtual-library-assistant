@@ -69,4 +69,9 @@ class Book extends Model
 
         return $this->available - $unReturned;
     }
+
+    public function canBeBorrowed()
+    {
+        return boolval($this->category->is_borrowable);
+    }
 }
