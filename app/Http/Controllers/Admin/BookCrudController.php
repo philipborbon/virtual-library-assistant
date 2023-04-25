@@ -33,7 +33,10 @@ class BookCrudController extends CrudController
         CRUD::column('category_id');
         CRUD::column('title');
         CRUD::column('language');
-        CRUD::column('circulation');
+        CRUD::addColumn([
+            'name' => 'circulation',
+            'label' => 'Section',
+        ]);
         // CRUD::column('description');
         CRUD::addColumn([
             'name' => 'image',
@@ -65,7 +68,10 @@ class BookCrudController extends CrudController
         ]);
         CRUD::column('title');
         CRUD::column('language');
-        CRUD::column('circulation');
+        CRUD::addColumn([
+            'name' => 'circulation',
+            'label' => 'Section',
+        ]);
         CRUD::addColumn([
             'name' => 'description',
             'type' => 'closure',
@@ -126,8 +132,9 @@ class BookCrudController extends CrudController
         CRUD::addField([
             'type' => 'select_from_array',
             'name' => 'circulation',
+            'label' => 'Section',
             'options' => [
-                'General' => 'General',
+                'General Circulation' => 'General Circulation',
                 'Filipiniana' => 'Filipiniana',
             ],
             'allows_null' => false,
