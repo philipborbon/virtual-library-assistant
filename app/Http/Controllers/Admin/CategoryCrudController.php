@@ -18,6 +18,7 @@ class CategoryCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
 
     public function setup()
     {
@@ -115,5 +116,26 @@ class CategoryCrudController extends CrudController
             ],
             'allows_null' => false,
         ]);
+    }
+
+    private function updateSubCategories($category, $isBorrowable)
+    {   
+        if ($category->categories()->exists()) {
+            $category->categories()->update(['is_borrowable' => $isBorrowable]);
+
+            foreach($category->categories as $subCategory) {
+                $this->updateSubCategories($subCategory, $isBorrowable);
+            }
+        }
+    }
+
+    public function update()
+    {
+        $isBorrowable = $this->crud->getRequest()->input('is_borrowable');
+        $current = $this->crud->getCurrentEntry();
+
+        $this->updateSubCategories($current, $isBorrowable);
+
+        return $this->traitUpdate();
     }
 }
