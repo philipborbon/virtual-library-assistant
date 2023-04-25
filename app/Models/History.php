@@ -67,6 +67,11 @@ class History extends Model
         return $this->book->language;
     }
     
+    public function getCirculationAttribute()
+    {
+        return $this->book->circulation;
+    }
+
     public function getDescriptionAttribute()
     {
         return $this->book->description;

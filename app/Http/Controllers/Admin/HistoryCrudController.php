@@ -69,6 +69,10 @@ class HistoryCrudController extends CrudController
         // Book detail
         CRUD::column('category');
         CRUD::column('language');
+        CRUD::addColumn([
+            'name' => 'circulation',
+            'label' => 'Section',
+        ]);
         // CRUD::addColumn([
         //     'name' => 'description',
         //     'type' => 'closure',
@@ -177,6 +181,14 @@ class HistoryCrudController extends CrudController
         CRUD::addField([
             'name' => 'category',
             // 'label' => 'Book',
+            'type' => 'text',
+            'attributes' => [
+                'readonly' => 'readonly',
+            ]
+        ]);
+        CRUD::addField([
+            'name' => 'circulation',
+            'label' => 'Section',
             'type' => 'text',
             'attributes' => [
                 'readonly' => 'readonly',
@@ -329,6 +341,7 @@ class HistoryCrudController extends CrudController
 
                 'book_title',
                 'category',
+                'circulation',
                 'user_name',
                 'date_requested',
                 'status',

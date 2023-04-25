@@ -47,6 +47,10 @@ class PendingCrudController extends HistoryCrudController
         // Book detail
         CRUD::column('category');
         CRUD::column('language');
+        CRUD::addColumn([
+            'name' => 'circulation',
+            'label' => 'Section',
+        ]);
         // CRUD::addColumn([
         //     'name' => 'description',
         //     'type' => 'closure',
