@@ -56,6 +56,10 @@ class BookController extends Controller
             abort(404);
         }
 
+        if (! $book->canBeBorrowed()) {
+            return response("Borrowing this book is not allowed.", 423);
+        }
+
         $user = $request->user();
 
         $history = History::where('user_id', $user->id)
