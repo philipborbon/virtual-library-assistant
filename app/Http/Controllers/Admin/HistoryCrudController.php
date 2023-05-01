@@ -320,7 +320,7 @@ class HistoryCrudController extends CrudController
 
                         case 'student':
                         default:
-                            $dueAt = now()->addDays(3);
+                            $dueAt = now()->addWeekdays(3);
                         break;
                         }
 
